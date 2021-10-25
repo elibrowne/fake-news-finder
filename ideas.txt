@@ -1,0 +1,13 @@
+https://www.kaggle.com/clmentbisaillon/fake-and-real-news-dataset
+Fake vs. Real News 
+ - Predicting if news is real or fake
+
+How should we manipulate this dataset?
+ - The topic isn't super important; I've yet to see if I should include it or not.
+ - Date isn't relevant to the production of real/fake news.
+ - The title and content are both important, especially give how sensational titles impact news.
+
+https://www.kaggle.com/sterby/german-recipes-dataset
+German Recipes Dataset 
+ - Guessing the ingredients in a recipe 
+ - Seeing if a recipe is vegetarian (ie looking for Hähnchen, Fleisch, Fisch, etc.)
