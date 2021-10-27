@@ -44,17 +44,30 @@ commonly-used 'stop-words' that don't contribute to the meaning of the text,
 n-gram range considers how many surrounding words impact a word (not exactly
 but shorthand). """
 
+# Combine the two datasets together before vectorizing. The order doesn't matter
+# because we'll randomize with train_test_split().
+dataset = realNews + fakeNews
+# Taking out every dictionary item of the same key in a list of dictionaries 
+# can be done with iterating over it.
+text = ( item['text'] for item in dataset ) # extract the text
+labels = ( item['true'] for item in dataset ) # take out real/fake values
+
 vectorizer = CountVectorizer(max_features = 100, stop_words = 'english', ngram_range = (1, 3))
-x = vectorizer.fit_transform() # currently working here! I need to transform the text and set up a y axis
+x = vectorizer.fit_transform(text) # vectorize the text in each news article
+y = numpy.array(labels) # just an array for 0s and 1s
 
-# DIVIDING INTO TRAINING AND TEST DATA
+# Here, we use the train_test_split method to set up the training data.
+# test_size designates 25% of our dataset to test the model (75% to train).
+# random_state = 10 shuffles the data. It's reproducible thanks to the 10.
+xTrain, xTest, yTrain, yTest = train_test_split(x, y, test_size = 0.25, random_state = 10)
+""" CURRENT ERROR IS HERE: "Singleton array array cannot be considered a valid collection. """ 
 
-# This is probably out of place right now and needs to be done earlier?
-dataset = realNews + fakeNews # combine the two sets: order doesn't matter.
-xTrain, xTest, yTrain, yTest = train_test_split()
+# TRAIN ALGORITHM(S)
 
-# VECTORIZE AND TRAIN ALGORITHM
-
-# VISUALIZE RESULTS AND SEE SCORE
+bernoulli = BernoulliNB() # using the Bernoulli Naive Bayes classification model
+bernoulli.fit(xTrain, yTrain) # fit the model! train it!
+# We can determine the accuracy by testing against test data.
+accuracy = bernoulli.score(xTest, yTest)
+print(accuracy)
 
 # DONE :)
