@@ -59,8 +59,10 @@ y = numpy.array(labels) # just an array for 0s and 1s
 # Here, we use the train_test_split method to set up the training data.
 # test_size designates 25% of our dataset to test the model (75% to train).
 # random_state = 10 shuffles the data. It's reproducible thanks to the 10.
-xTrain, xTest, yTrain, yTest = train_test_split(x, y, test_size = 0.25, random_state = 10)
-""" CURRENT ERROR IS HERE: "Singleton array array cannot be considered a valid collection. """ 
+xTrain, xTest, yTrain, yTest = train_test_split(x, y, random_state = 10)
+""" CURRENT ERROR IS HERE: Singleton array array cannot be considered a valid collection. """ 
+""" Singleton array array(<generator object <genexpr> at 0x7fa7e8ec10b0>, dtype=object) """
+# the generator object is a flop
 
 # TRAIN ALGORITHM(S)
 
