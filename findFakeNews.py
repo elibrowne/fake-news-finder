@@ -49,8 +49,9 @@ but shorthand). """
 dataset = realNews + fakeNews
 # Taking out every dictionary item of the same key in a list of dictionaries 
 # can be done with iterating over it.
-text = ( item['text'] for item in dataset ) # extract the text
-labels = ( item['true'] for item in dataset ) # take out real/fake values
+text = [ item['text'] for item in dataset ] # extract the text
+labels = [ item['real'] for item in dataset ] # take out real/fake values
+print(labels)
 
 vectorizer = CountVectorizer(max_features = 100, stop_words = 'english', ngram_range = (1, 3))
 x = vectorizer.fit_transform(text) # vectorize the text in each news article
