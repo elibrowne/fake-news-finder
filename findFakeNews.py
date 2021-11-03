@@ -10,7 +10,8 @@ from sklearn.naive_bayes import BernoulliNB, CategoricalNB, MultinomialNB
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import train_test_split
 # Classification report and confusion matrix are two ways to display data
-from sklearn.metrics import classification_report, confusion_matrix
+from sklearn.metrics import classification_report, plot_confusion_matrix
+from matplotlib import pyplot
 
 """ This code reads in the CSV files containing instances of real and fake news
 and does the most basic things to organize them. It  cleans the data somewhat, 
@@ -58,10 +59,10 @@ y = numpy.array(labels) # just an array for 0s and 1s
 
 # Here, we use the train_test_split method to set up the training data.
 # test_size designates 25% of our dataset to test the model (75% to train).
-# random_state = 10 shuffles the data. It's reproducible thanks to the 10.
+# random_state = 30 shuffles the data. It's reproducible thanks to the number.
 xTrain, xTest, yTrain, yTest = train_test_split(x, y, random_state = 30)
 
-# TRAIN ALGORITHM(S)
+# TRAIN CLASSIFIER(S)
 
 # Training the Bernoulli Naive Bayes classification model
 bernoulli = BernoulliNB() 
@@ -70,6 +71,8 @@ bernoulli.fit(xTrain, yTrain) # fit the model! train it!
 bernoulliAcc = bernoulli.score(xTest, yTest)
 print("Bernoulli accuracy: " + str(bernoulliAcc)) 
 
+""" This code is blocked off because I don't want to delete it, nor do I want
+to train the other classifier. It's here if needed. 
 # Training the Multinomial Naive Bayes classification model
 # This one seems to be a pretty standard model, so I've compared it with the
 # Bernoulli model, which uses a different strategy to classify.
@@ -79,6 +82,27 @@ multinomialAcc = multinomial.score(xTest, yTest)
 print("Multinomial accuracy: " + str(multinomialAcc))
 # random_state = 10: Bernoulli 98.36%; Multinomial 91.50%
 # random_state = 20: Bernoulli 98.66%; Multinomial 92.34%
-# random_state = 30: Bernoulli 98.39%; Multinomial 91.84%
+# random_state = 30: Bernoulli 98.39%; Multinomial 91.84% """
+
+# VISUALIZE OUR DATA
+
+plot_confusion_matrix(bernoulli, xTest, yTest)
+# plot_confusion_matrix(multinomial, xTest, yTest)
+pyplot.show()
+
+# LET THE ALGORITHM TEST STRINGS
+
+print("Enter an article text.")
+
+while True:
+	userText = input()
+	print(userText)
+	ut = vectorizer.transform([userText]) # vectorizer needs something iterable
+	print("Input vectorized! I'm guessing now...")
+	if bernoulli.predict(ut)[0] == 1: # it outputs [0] or [1] for fake or real
+		print("I'm guessing that this article is real.")
+	else:
+		print("I'm guessing that this article is fake.")
+	print("Have another article?")
 
 # DONE :)
