@@ -2,7 +2,6 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
 from django.views import View
-from sklearn.feature_extraction.text import CountVectorizer
 import pickle
 
 # Create your views here.
@@ -14,19 +13,21 @@ class index(View):
 		articleContent = "" # placeholder for future data 
 		realNews = False
 
-		vectorizer = pickle.load(open("classifier/vectorizer.pkl", 'rb'))
-		articleContent = request.GET['article']
-		print(articleContent)
-		loaded_model = pickle.load(open("classifier/newsClassifier.pkl", 'rb'))
-		print("TRYING")
-		result = loaded_model.predict(vectorizer.transform([articleContent]))[0]
-		print(result)
-		if result == 1:
-			realNews = True
+		# Use a try/catch block to see if there's an article
+		try: 
+			articleContent = request.GET['article']
+			# Use pickle to load saved vectorizer and classifier (save time!)
+			vectorizer = pickle.load(open("classifier/vectorizer.pkl", 'rb'))
+			loaded_model = pickle.load(open("classifier/newsClassifier.pkl", 'rb'))
+			# The first element on the prediction is 0 for fake and 1 for real
+			result = loaded_model.predict(vectorizer.transform([articleContent]))[0]
+			if result == 1:
+				realNews = True # signal to page that it's real
+		except: # no article sent, just load the page with a blank one
+			articleContent = "" # empty article = no result
 
 		# Create context: article content to determine if something was entered
 		# and boolean to output real or fake
-		print(realNews)
 		context = {
 			'article': articleContent,
 			'real': realNews
