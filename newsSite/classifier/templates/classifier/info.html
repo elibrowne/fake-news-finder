@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head> 
+		<title> Project Overview </title>
+	</head>
+	<style> 
+		/* I did in-document styling because it's quick. There aren't any
+		super intensive or complex styles involved here, just the basics. */
+		body {
+			padding-top: 5px;
+			padding-left: 100px;
+			padding-right: 100px;
+			font-family: Arial;
+			text-align: center;
+		}
+		#news {
+			width: 100%; 
+			height: 400px; 
+			border-radius: 15px; 
+			border: 1px solid black; 
+			padding: 15px;
+			align-self: center;
+		}
+		#submitButton {
+			width: 50%;
+			height: 50px;
+			border-radius: 15px;
+			background-color: #aaa;
+			border: none;
+			color: white;
+			font-size: large;
+			align-self: center;
+		}
+	</style>
+	<body>
+		<a href="/">home</a> • <a href="info">learn more</a> • <a href="tips">find fake news</a>
+		<h1> Can machine learning help us identify fake news? </h1>
+		<em> <p> Here are some details about my project. </p> </em>
+		<strong> Dataset </strong>
+		<p> The <a href="https://www.kaggle.com/clmentbisaillon/fake-and-real-news-dataset">dataset</a> I chose came from Kaggle. It's about 115 megabytes and contains around 11,000 articles, each classified as real or fake. The articles themselves come from around 2015-17 and talk mainly about American issues from an American perspective. I haven't been able to look through the entire data set to find outliers, given how large it is, but with text articles in this nature I imagine every one is a bit unique: I trained the algorithm with three random states and got similar results to lessen any concerns. </p>  
+		<strong> Training the model </strong>
+		<p> I did not scale the dataset, given I was only looking at one feature (the content) and comparing it to one feature (real/fake). I did <a href="https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.CountVectorizer.html">remove stop words</a> from the data to make it more distinguishable by the classifier. I tested two methods—<a href="https://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.MultinomialNB.html">Multinomial Naive Bayes classification</a> and <a href="https://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.BernoulliNB.html#sklearn.naive_bayes.BernoulliNB">Bernoulli Naive Bayes classification</a>—and I found that the Bernoulli classifier was significantly better, with an average success of ~98% compared to the Multinomial classifier's ~92%. Because the two algorithms have the same time complexity, I went with the more accurate one. </p>
+		<strong> Why this project? </strong>
+		<p> Fake news has become a significant issue in society. Much of its power is thanks to the sensational way in which it's written: it's designed to elicit an emotional response, making it even preferable to real news for some people. With this in mind, the way that fake news is written and the vocabulary that it uses makes for an interesting classification problem. Can an algorithm use these tendencies to guess what news is fake and what news isn't? </p>
+		<strong> So, can fake news be identified with an algorithm? </strong>
+		<p> It seems promising! The dataset I used has a few flaws: it's solely based in the United States and it's quite dated. A lot of modern news pertaining to issues like coronavirus does not have any "equivalent" in the training set, making the classification of current issues less reliable. Additionally, using sources from news sources outside of the United States is also likely less accurate, and I've noticed that articles that use a lot of jargon have also been more likely to be deemed as fake. While it represents an interesting concept, this classifier should probably not be your first choice in determining if an article is real or not. Try <a href="tips">this page</a> to see some ways to identify fake news.
+	</body>
+</html>

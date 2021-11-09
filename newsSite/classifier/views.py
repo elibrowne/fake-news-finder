@@ -35,3 +35,12 @@ class index(View):
 		
 		# Return HTTP response with context
 		return HttpResponse(template.render(context, request))
+
+class info(View):
+	def get(self, request):
+		# Load template
+		template = loader.get_template("classifier/info.html")
+		context = {}
+		
+		# Return HTTP response with context
+		return HttpResponse(template.render(context, request))
