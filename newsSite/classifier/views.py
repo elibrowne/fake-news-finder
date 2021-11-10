@@ -44,3 +44,12 @@ class info(View):
 		
 		# Return HTTP response with context
 		return HttpResponse(template.render(context, request))
+
+class tips(View):
+	def get(self, request):
+		# Load template
+		template = loader.get_template("classifier/tips.html")
+		context = {}
+
+		# Return HTTP response
+		return HttpResponse(template.render(context, request))
